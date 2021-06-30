@@ -6,11 +6,13 @@ import (
 	"github.com/a-poor/golors"
 	"os"
 	"strings"
+	"time"
 )
 
 
 const PROBLEMS_PATH = "./problems.csv"
 const PASSING_SCORE = 70.0
+const TIME_TO_ANSWER = "2s"
 
 
 type problem struct {
@@ -91,17 +93,34 @@ func main() {
 	// Ask the questions
 	n_correct := 0
 	out_of := 0
+	tta, _ := time.ParseDuration(TIME_TO_ANSWER)
+	time_to_answer := tta.Seconds()
+
+	golors.Grayln("You'll have "+TIME_TO_ANSWER+" to answer each question.")
+	ask("Are you ready...")
+	fmt.Println()
 
 	for _, q := range questions {
+		// Ask the question and calculate the question duration
+		start_time := time.Now()
 		response := ask(q.question)
+		end_time := time.Now()
+		answer_duration := end_time.Sub(start_time).Seconds()
+
+		// Print out the response
 		fmt.Println("You said:       ", response)
 		fmt.Println("The answer was: ", q.answer)
-		golors.Gray("You said: ", response, ". That is...")
-		if response == q.answer {
+		golors.Gray("You said: ", response)
+		golors.Gray(". And you are...")
+
+		// Calculate if the player was correct
+		if answer_duration > time_to_answer {
+			golors.Redln("OUT OF TIME! Sorry...")
+		} else if response != q.answer {
+			golors.Redln("WRONG! Sorry...")
+		} else {
 			golors.Greenln("CORRECT!")
 			n_correct++
-		} else {
-			golors.Redln("WRONG! Sorry...")
 		}
 		out_of++
 	}
