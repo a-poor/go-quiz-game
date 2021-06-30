@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	//"os"
-	"quiz-game/color"
+	"github.com/a-poor/golors"
 	"strings"
 )
 
@@ -14,7 +14,7 @@ import (
 //func read_questions(path string) {
 //	f, err := os.Open(path)
 //	if err != nil {
-//		color.Redln("Oh no! An error occured")
+//		golors.Redln("Oh no! An error occured")
 //		panic(err)
 //	}
 //	defer f.Close()
@@ -27,17 +27,17 @@ import (
 
 func ask(question string) string {
 	var ans string
-	color.Blue(question, " ")
+	golors.Blue(question, " ")
 	fmt.Scanln(&ans)
 	return strings.TrimSpace(ans)
 }
 
 func correct(message string) {
-	color.Greenln(message)
+	golors.Greenln(message)
 }
 
 func wrong(message string) {
-	color.Redln(message)
+	golors.Redln(message)
 }
 
 func main() {
@@ -45,8 +45,8 @@ func main() {
 
 
 	// Print the intro
-	color.Blueln("Welcome to my Quiz Game!")
-	color.Grayln("========================\n")
+	golors.Blueln("Welcome to my Quiz Game!")
+	golors.Grayln("========================\n")
 
 	// Get the player's name
 	var name string
